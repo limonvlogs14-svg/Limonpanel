@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Limonpanel</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f4f7ff;--card:#fff;--ink:#1b1f3b;--mute:#6a7091;--line:#e4e8f5;--lemon:#ffd93d;--lime:#7ed957;--teal:#0fb5ae;--violet:#6c4cf1;--coral:#ff6b6b;--sky:#3aa7ff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12142b;--card:#1c2040;--ink:#f1f3ff;--mute:#9aa1c9;--line:#2c3260}}
+:root[data-theme="dark"]{--bg:#12142b;--card:#1c2040;--ink:#f1f3ff;--mute:#9aa1c9;--line:#2c3260}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.hide{display:none!important}
+/* login */
+.auth{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.hero{background:linear-gradient(140deg,var(--violet),var(--sky) 55%,var(--teal));color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-90px;bottom:-90px;width:320px;height:320px;border-radius:50%;background:var(--lemon);opacity:.9}
+.hero:before{content:"";position:absolute;right:120px;bottom:150px;width:120px;height:120px;border-radius:50%;background:var(--lime);opacity:.9}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:26px;letter-spacing:-.5px}
+.logo i{width:36px;height:36px;border-radius:12px 12px 12px 4px;background:var(--lemon);display:grid;place-items:center;font-style:normal;color:#1b1f3b;font-size:20px}
+.hero h1{font-size:44px;line-height:1.1;margin:0 0 14px;max-width:460px;position:relative;z-index:1}
+.hero p{max-width:420px;opacity:.92;margin:0;position:relative;z-index:1}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:1}
+.chips span{background:rgba(255,255,255,.2);padding:6px 12px;border-radius:99px;font-size:14px;font-weight:500}
+.formwrap{display:grid;place-items:center;padding:32px}
+.box{width:100%;max-width:400px}
+.tabs{display:flex;background:var(--line);border-radius:14px;padding:4px;margin-bottom:24px}
+.tabs button{flex:1;border:0;background:none;padding:10px;border-radius:11px;font-weight:600;cursor:pointer;color:var(--mute)}
+.tabs button.on{background:var(--card);color:var(--ink);box-shadow:0 2px 8px rgba(40,50,120,.12)}
+label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+input,select,textarea{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--card)}
+input:focus,select:focus,textarea:focus{border-color:var(--violet)}
+.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:700;cursor:pointer;background:var(--violet);color:#fff;width:100%;margin-top:20px}
+.btn.lemon{background:var(--lemon);color:#1b1f3b}
+.btn.sm{width:auto;margin:0;padding:8px 14px;font-size:14px}
+.note{color:var(--mute);font-size:14px}
+.err{color:var(--coral);font-size:14px;min-height:20px;margin-top:8px}
+/* app */
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+aside{background:var(--card);border-right:2px solid var(--line);padding:20px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+aside .logo{color:var(--ink);padding:0 8px 18px;font-size:22px}
+.nav{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;border:0;background:none;width:100%;text-align:left;cursor:pointer;font-weight:600;color:var(--mute)}
+.nav b{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:15px;color:#fff}
+.nav.on{background:var(--bg);color:var(--ink)}
+.spacer{flex:1}
+main{padding:24px 28px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.top h2{margin:0;font-size:28px}
+.pill{background:var(--lemon);color:#1b1f3b;font-weight:700;padding:8px 16px;border-radius:99px}
+.menu{display:none;border:0;background:var(--card);border-radius:10px;padding:8px 12px;font-size:20px;cursor:pointer}
+.grid{display:grid;gap:16px}
+.stats{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-bottom:20px}
+.stat{border-radius:18px;padding:18px;color:#fff;position:relative;overflow:hidden}
+.stat small{opacity:.9;font-weight:500}.stat div{font-size:30px;font-weight:800}
+.s1{background:linear-gradient(135deg,var(--violet),#9b7bff)}.s2{background:linear-gradient(135deg,var(--teal),#52d6c0)}
+.s3{background:linear-gradient(135deg,#ff9a3d,var(--coral))}.s4{background:linear-gradient(135deg,var(--sky),#74c4ff)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}
+.card h3{margin:0 0 12px;font-size:18px}
+.two{grid-template-columns:1fr 1fr}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);font-size:15px}
+th{color:var(--mute);font-weight:600}
+.tag{padding:3px 10px;border-radius:99px;font-size:13px;font-weight:700;color:#1b1f3b}
+.t-done{background:var(--lime)}.t-pro{background:var(--lemon)}.t-pen{background:#c7d2ff}.t-can{background:#ffb3b3}
+.price{font-size:26px;font-weight:800;color:var(--violet)}
+.pay{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:8px}
+.pay button{border:2px solid var(--line);background:var(--card);border-radius:14px;padding:14px;font-weight:700;cursor:pointer}
+.pay button.on{border-color:var(--violet);background:var(--bg)}
+code{background:var(--bg);padding:10px 12px;border-radius:10px;display:block;overflow-x:auto;font-size:14px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;font-weight:600;z-index:50}
+@media(max-width:860px){
+.auth{grid-template-columns:1fr}.hero{padding:28px;min-height:260px}.hero h1{font-size:32px}
+.app{grid-template-columns:1fr}
+aside{position:fixed;z-index:20;left:0;top:0;width:260px;transform:translateX(-100%);transition:transform .2s}
+aside.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.4)}
+.menu{display:block}.two{grid-template-columns:1fr}main{padding:18px 14px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<section class="auth" id="auth">
+  <div class="hero">
+    <div class="logo"><i>L</i>Limonpanel</div>
+    <div>
+      <h1>Your whole panel, fresh and simple.</h1>
+      <p>Place orders, add funds, track everything and get support from one bright dashboard.</p>
+      <div class="chips"><span>Fast orders</span><span>Easy payments</span><span>24/7 support</span><span>API access</span></div>
+    </div>
+    <div class="note" style="color:#fff;opacity:.85;position:relative;z-index:1">Demo template: any username and password works.</div>
+  </div>
+  <div class="formwrap"><div class="box">
+    <div class="tabs"><button class="on" id="tabIn">Sign in</button><button id="tabUp">Create account</button></div>
+    <form id="authForm" autocomplete="off" onsubmit="return false">
+      <div id="emailRow" class="hide"><label for="em">Email</label><input id="em" type="email" placeholder="you@example.com"></div>
+      <label for="un">Username</label><input id="un" placeholder="Your username">
+      <label for="pw">Password</label><input id="pw" type="password" placeholder="Your password">
+      <div class="err" id="err"></div>
+      <button class="btn" id="go">Sign in</button>
+    </form>
+    <p class="note" style="margin-top:16px">Forgot your password? Contact support from your ticket page.</p>
+  </div></div>
+</section>
+
+<div class="app hide" id="app">
+  <aside id="side">
+    <div class="logo"><i>L</i>Limonpanel</div>
+    <button class="nav on" data-v="dash"><b style="background:var(--violet)">▦</b>Dashboard</button>
+    <button class="nav" data-v="order"><b style="background:var(--teal)">＋</b>New order</button>
+    <button class="nav" data-v="services"><b style="background:var(--sky)">☰</b>Services</button>
+    <button class="nav" data-v="orders"><b style="background:#ff9a3d">⏱</b>Orders</button>
+    <button class="nav" data-v="funds"><b style="background:var(--lime);color:#1b1f3b">৳</b>Add funds</button>
+    <button class="nav" data-v="tickets"><b style="background:var(--coral)">✉</b>Support</button>
+    <button class="nav" data-v="api"><b style="background:#8a5cf6">{ }</b>API</button>
+    <div class="spacer"></div>
+    <button class="nav" id="logout"><b style="background:var(--mute)">⎋</b>Sign out</button>
+  </aside>
+  <main>
+    <div class="top">
+      <div style="display:flex;gap:12px;align-items:center"><button class="menu" id="menu" aria-label="Open menu">☰</button><h2 id="title">Dashboard</h2></div>
+      <div class="pill">Balance: <span id="bal">500.00</span></div>
+    </div>
+
+    <div id="v-dash">
+      <div class="grid stats">
+        <div class="stat s1"><small>Total orders</small><div id="stT">0</div></div>
+        <div class="stat s2"><small>Completed</small><div id="stC">0</div></div>
+        <div class="stat s3"><small>In progress</small><div id="stP">0</div></div>
+        <div class="stat s4"><small>Total spent</small><div id="stS">0.00</div></div>
+      </div>
+      <div class="card"><h3>Recent orders</h3><div class="tw"><table><thead><tr><th>ID</th><th>Service</th><th>Quantity</th><th>Charge</th><th>Status</th></tr></thead><tbody id="recent"></tbody></table></div></div>
+      <div class="card"><h3>Announcements</h3><p class="note" style="margin:0">Welcome to Limonpanel. Edit this text to share news, offers or maintenance notices with your users.</p></div>
+    </div>
+
+    <div id="v-order" class="hide">
+      <div class="grid two">
+        <div class="card"><h3>Place a new order</h3>
+          <label for="cat">Category</label><select id="cat"></select>
+          <label for="svc">Service</label><select id="svc"></select>
+          <label for="lnk">Link</label><input id="lnk" placeholder="https://">
+          <label for="qty">Quantity</label><input id="qty" type="number" min="1" value="100">
+          <div class="err" id="oerr"></div>
+          <button class="btn" id="place">Place order</button>
+        </div>
+        <div class="card"><h3>Order summary</h3>
+          <p class="note" id="sdesc" style="margin-top:0"></p>
+          <p class="note" style="margin-bottom:0">Rate per 1000</p><div class="price" id="rate">0</div>
+          <p class="note" style="margin-bottom:0">Total charge</p><div class="price" id="charge" style="color:var(--teal)">0.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="v-services" class="hide"><div class="card"><div class="tw"><table><thead><tr><th>ID</th><th>Service</th><th>Rate / 1000</th><th>Min</th><th>Max</th></tr></thead><tbody id="slist"></tbody></table></div></div></div>
+
+    <div id="v-orders" class="hide"><div class="card"><div class="tw"><table><thead><tr><th>ID</th><th>Service</th><th>Link</th><th>Quantity</th><th>Charge</th><th>Status</th></tr></thead><tbody id="olist"></tbody></table></div></div></div>
+
+    <div id="v-funds" class="hide"><div class="card" style="max-width:560px"><h3>Add funds</h3>
+      <label>Payment method</label>
+      <div class="pay" id="pay"><button class="on">bKash</button><button>Nagad</button><button>Rocket</button><button>Card</button></div>
+      <label for="amt">Amount</label><input id="amt" type="number" min="1" value="500">
+      <button class="btn lemon" id="addf">Add funds</button>
+    </div></div>
+
+    <div id="v-tickets" class="hide"><div class="grid two">
+      <div class="card"><h3>New ticket</h3><label for="sub">Subject</label><input id="sub" placeholder="What do you need help with?"><label for="msg">Message</label><textarea id="msg" rows="4"></textarea><button class="btn" id="tk">Send ticket</button></div>
+      <div class="card"><h3>Your tickets</h3><div id="tlist" class="note">No tickets yet. Send one and it will appear here.</div></div>
+    </div></div>
+
+    <div id="v-api" class="hide"><div class="card" style="max-width:640px"><h3>API access</h3>
+      <p class="note" style="margin-top:0">Use your key to place orders from your own site or app.</p>
+      <label>Your API key</label><code id="key"></code>
+      <label>Endpoint</label><code>POST /api/v2 &nbsp; key, action=add, service, link, quantity</code>
+      <button class="btn sm" id="regen" style="margin-top:14px">Generate new key</button>
+    </div></div>
+  </main>
+</div>
+<div class="toast hide" id="toast"></div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var SVC=[
+{id:101,cat:"Social growth",name:"Followers (fast)",rate:120,min:50,max:10000,d:"Starts in minutes. Gradual delivery."},
+{id:102,cat:"Social growth",name:"Likes (real look)",rate:60,min:20,max:20000,d:"Instant start. Stable results."},
+{id:201,cat:"Video",name:"Views (high retention)",rate:35,min:100,max:500000,d:"Works on public videos only."},
+{id:202,cat:"Video",name:"Watch time boost",rate:210,min:100,max:5000,d:"Slow and steady delivery."},
+{id:301,cat:"Messaging",name:"Channel members",rate:180,min:50,max:15000,d:"Public channels only."}];
+var orders=[{id:1001,s:SVC[1],l:"https://example.com/p/1",q:500,c:30,st:"Completed"},{id:1002,s:SVC[2],l:"https://example.com/v/2",q:5000,c:175,st:"In progress"}];
+var bal=500,nid=1003,mode="in";
+function toast(t){var e=$("toast");e.textContent=t;e.classList.remove("hide");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.add("hide")},2200)}
+function tag(s){var c={"Completed":"t-done","In progress":"t-pro","Pending":"t-pen","Canceled":"t-can"}[s];return '<span class="tag '+c+'">'+s+'</span>'}
+function money(n){return n.toFixed(2)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+/* auth */
+function setMode(m){mode=m;$("tabIn").classList.toggle("on",m=="in");$("tabUp").classList.toggle("on",m=="up");$("emailRow").classList.toggle("hide",m=="in");$("go").textContent=m=="in"?"Sign in":"Create account";$("err").textContent=""}
+$("tabIn").onclick=function(){setMode("in")};$("tabUp").onclick=function(){setMode("up")};
+$("go").onclick=function(){
+ if(!$("un").value.trim()||!$("pw").value){$("err").textContent="Enter your username and password.";return}
+ if(mode=="up"&&$("em").value.indexOf("@")<1){$("err").textContent="Enter a valid email address.";return}
+ $("auth").classList.add("hide");$("app").classList.remove("hide");refresh();genKey()};
+$("logout").onclick=function(){$("app").classList.add("hide");$("auth").classList.remove("hide")};
+/* nav */
+var titles={dash:"Dashboard",order:"New order",services:"Services",orders:"Orders",funds:"Add funds",tickets:"Support",api:"API"};
+function show(v){["dash","order","services","orders","funds","tickets","api"].forEach(function(x){$("v-"+x).classList.toggle("hide",x!=v)});
+ document.querySelectorAll(".nav[data-v]").forEach(function(b){b.classList.toggle("on",b.dataset.v==v)});
+ $("title").textContent=titles[v];$("side").classList.remove("open")}
+document.querySelectorAll(".nav[data-v]").forEach(function(b){b.onclick=function(){show(b.dataset.v)}});
+$("menu").onclick=function(){$("side").classList.toggle("open")};
+/* render */
+function row(o,full){return '<tr><td>'+o.id+'</td><td>'+esc(o.s.name)+'</td>'+(full?'<td>'+esc(o.l)+'</td>':'')+'<td>'+o.q+'</td><td>'+money(o.c)+'</td><td>'+tag(o.st)+'</td></tr>'}
+function refresh(){
+ $("bal").textContent=money(bal);
+ $("stT").textContent=orders.length;
+ $("stC").textContent=orders.filter(function(o){return o.st=="Completed"}).length;
+ $("stP").textContent=orders.filter(function(o){return o.st!="Completed"}).length;
+ $("stS").textContent=money(orders.reduce(function(a,o){return a+o.c},0));
+ $("recent").innerHTML=orders.slice(0,5).map(function(o){return row(o,false)}).join("");
+ $("olist").innerHTML=orders.map(function(o){return row(o,true)}).join("");
+ $("slist").innerHTML=SVC.map(function(s){return '<tr><td>'+s.id+'</td><td>'+esc(s.name)+'</td><td>'+s.rate+'</td><td>'+s.min+'</td><td>'+s.max+'</td></tr>'}).join("")}
+var cats=[];SVC.forEach(function(s){if(cats.indexOf(s.cat)<0)cats.push(s.cat)});
+$("cat").innerHTML=cats.map(function(c){return '<option>'+c+'</option>'}).join("");
+function fillSvc(){var l=SVC.filter(function(s){return s.cat==$("cat").value});$("svc").innerHTML=l.map(function(s){return '<option value="'+s.id+'">'+s.id+' - '+esc(s.name)+'</option>'}).join("");calc()}
+function cur(){return SVC.filter(function(s){return s.id==$("svc").value})[0]}
+function calc(){var s=cur();if(!s)return;$("sdesc").textContent=s.d+" Min "+s.min+", max "+s.max+".";$("rate").textContent=s.rate;$("charge").textContent=money(s.rate*(+$("qty").value||0)/1000)}
+$("cat").onchange=fillSvc;$("svc").onchange=calc;$("qty").oninput=calc;fillSvc();
+$("place").onclick=function(){var s=cur(),q=+$("qty").value,c=s.rate*q/1000,e=$("oerr");e.textContent="";
+ if(!/^https?:\/\//.test($("lnk").value)){e.textContent="Enter a link that starts with http:// or https://";return}
+ if(q<s.min||q>s.max){e.textContent="Quantity must be between "+s.min+" and "+s.max+".";return}
+ if(c>bal){e.textContent="Not enough balance. Add funds first.";return}
+ bal-=c;orders.unshift({id:nid++,s:s,l:$("lnk").value,q:q,c:c,st:"Pending"});$("lnk").value="";refresh();toast("Order placed");show("orders")};
+/* funds, tickets, api */
+$("pay").onclick=function(e){if(e.target.tagName=="BUTTON"){[].forEach.call($("pay").children,function(b){b.classList.remove("on")});e.target.classList.add("on")}};
+$("addf").onclick=function(){var a=+$("amt").value;if(a<1){toast("Enter an amount of 1 or more");return}bal+=a;refresh();toast("Funds added")};
+var tks=[];
+$("tk").onclick=function(){if(!$("sub").value.trim()||!$("msg").value.trim()){toast("Add a subject and a message");return}
+ tks.unshift($("sub").value);$("tlist").innerHTML=tks.map(function(t,i){return '<div style="padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink)"><b>#'+(i+1)+'</b> '+esc(t)+' '+tag("Pending")+'</div>'}).join("");$("sub").value="";$("msg").value="";toast("Ticket sent")};
+function genKey(){var c="abcdef0123456789",k="";for(var i=0;i<32;i++)k+=c[Math.floor(Math.random()*16)];$("key").textContent=k}
+$("regen").onclick=function(){genKey();toast("New key generated")};
+</script>
+</body>
+</html>
